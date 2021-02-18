@@ -15,7 +15,7 @@ parser.add_argument('-f', '--MSAfile', help='MSA output file path, as input file
 parser.add_argument('-o', '--output', help='output file path, filter result')
 parser.add_argument('-d', '--delete', 
                     help='delect this sequence if there is more the set "-d" continues gap',
-                    default=10, type=int)
+                    default=0, type=int)
 parser.add_argument('-p', '--precent', 
                     help='Threshold of the percentage of filter site gaps, default=10.0',
                     default=10.0, type=float
@@ -65,7 +65,8 @@ seqs_cut = list(zip(*statues_cut))
 seq_cut_list = list(zip(*(seq_list[0], seqs_cut)))
 seq_cut_list = [(name, ''.join(seq_line)) for name, seq_line in seq_cut_list]
 # delect sequence if there is more gaps
-seq_cut_list = [(name, seq_line) for name, seq_line in seq_cut_list if '-'*n_gap not in seq_line]
+if n_gap:
+    seq_cut_list = [(name, seq_line) for name, seq_line in seq_cut_list if '-'*n_gap not in seq_line]
 
 outf = open(outfile, 'w')
 for name, seq_line in seq_cut_list:
